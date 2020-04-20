@@ -161,6 +161,21 @@ def KrnlTerminatorOp : Op<Krnl_Dialect, "terminate", [Terminator]> {
   let verifier = ?;
 }
 
+def KrnlTileOp : Op<Krnl_Dialect, "tile"> {
+  let summary = "Krnl tile operation";
+  let description = [{
+
+  }];
+
+  let arguments = (ins
+    Variadic<AnyType>:$loops, I64ArrayAttr:$tile_sizes);
+  let results = (outs Variadic<AnyType>:$tiled_loops);
+
+  let assemblyFormat = [{
+      $loops $tile_sizes attr-dict `:` functional-type($loops, $tiled_loops)
+  }];
+}
+
 def KrnlEntryPointOp : Op<Krnl_Dialect, "entry_point"> {
   let summary = "Indicate ONNX entry point";
   let description = [{The "krnl.entry_point" function indicates the main entry
